@@ -41,6 +41,7 @@ public:
 		}
 
 		this->pid = p;  /* you don't need to use var pid*/
+		CloseHandle(h);
 
 		return this->pid;
 
