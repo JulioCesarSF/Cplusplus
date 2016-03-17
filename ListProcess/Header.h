@@ -32,7 +32,8 @@ public:
 		else {
 			CloseHandle(h);
 			return false;
-		}	
+		}
+		CloseHandle(h);
 
 		return true;
 
