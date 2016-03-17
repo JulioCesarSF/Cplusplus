@@ -40,7 +40,7 @@ public:
 			return p;
 		}
 
-		this->pid = p;
+		this->pid = p;  /* you don't need to use var pid*/
 
 		return this->pid;
 
