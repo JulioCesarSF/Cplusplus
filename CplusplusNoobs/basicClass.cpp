@@ -29,7 +29,7 @@ public: //everybody can access this one
 		return this->num;
 	}
 
-	int getNum2() {
+	int getNum1() {
 		return this->num1;
 	}
 };
