@@ -13,6 +13,16 @@ private: //we need a function/method to access this var in other class
 public: //everybody can access this one
 	int num2;
 
+	/* constructor */
+
+	Test(int number) {
+		this->num = number;
+	}
+	
+	Test() {
+
+	}
+
 	void setNum(int num) {
 		this->num = num;
 	}
@@ -37,12 +47,14 @@ public: //everybody can access this one
 int main() {
 
 	Test* t = new Test();
+	Test* t2 = new Test(999);
 
 	t->setNum(100);
 	t->setNum1(200);
 	t->setNum2(300);
 
-	cout << "Protected: " << t->getNum() << " Private: " << t->getNum2() << endl;
+	cout << "Protected: " << t->getNum() << " Private: " << t->getNum1() << endl;
+	cout << "Constructor: " << t2->getNum() << endl;
 
 	delete t;
 
