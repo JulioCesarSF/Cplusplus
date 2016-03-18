@@ -1,5 +1,7 @@
 ![alt tag](http://i.imgur.com/TF802CR.png)
 
+C++ Win32 Pong , no external libs..
+
 under construction
 
 TO-DO:
