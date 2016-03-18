@@ -51,18 +51,18 @@ public:
 	bool setWCE() {
 		this->wce.cbSize = sizeof(WNDCLASSEX);
 		//wce.style = CS_HREDRAW | CS_VREDRAW;
-		wce.hInstance = this->getHinst();
-		wce.lpfnWndProc = Proc;
-		wce.cbClsExtra = 0;
-		wce.lpszClassName = this->getClassName();
-		wce.hbrBackground = (HBRUSH)(BLACK_BRUSH);
-		wce.hIcon = LoadIcon(this->getHinst(), MAKEINTRESOURCE(IDI_APPLICATION));
-		wce.hCursor = LoadCursor(NULL, IDC_ARROW);
-		wce.cbWndExtra = 0;
-		wce.hIconSm = LoadIcon(wce.hInstance, MAKEINTRESOURCE(IDI_APPLICATION));
-		wce.lpszMenuName = NULL;
+		this->wce.hInstance = this->getHinst();
+		this->wce.lpfnWndProc = Proc;
+		this->wce.cbClsExtra = 0;
+		this->wce.lpszClassName = this->getClassName();
+		this->wce.hbrBackground = (HBRUSH)(BLACK_BRUSH);
+		this->wce.hIcon = LoadIcon(this->getHinst(), MAKEINTRESOURCE(IDI_APPLICATION));
+		this->wce.hCursor = LoadCursor(NULL, IDC_ARROW);
+		this->wce.cbWndExtra = 0;
+		this->wce.hIconSm = LoadIcon(wce.hInstance, MAKEINTRESOURCE(IDI_APPLICATION));
+		this->wce.lpszMenuName = NULL;
 
-		if (!RegisterClassEx(&wce))
+		if (!RegisterClassEx(&this->wce))
 			return false;
 		else
 			return true;
