@@ -92,3 +92,41 @@ public:
 	}	
 
 };
+
+class MyButton {
+private:
+	HWND btn;
+public:
+
+	MyButton(LPSTR lpValue,
+		int sizeX, int sizeY, int posX, int posY,
+		HINSTANCE hInst, HWND hwnd) {
+		this->createButton(lpValue,
+			sizeX, sizeY, posX, posY,
+			hInst, hwnd);
+	}
+
+	MyButton() {}
+
+	void setHwnd(HWND btn) {
+		this->btn = btn;
+	}
+
+	HWND getHwnd() {
+		return this->btn;
+	}
+
+	bool createButton(LPSTR lpValue, 
+		int sizeX, int sizeY, int posX, int posY,
+		HINSTANCE hInst, HWND hwnd) {
+
+		this->setHwnd(CreateWindow("BUTTON", lpValue, WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON,
+			posX, posY, sizeX, sizeY, hwnd, NULL, hInst, NULL));
+
+		if (!this->getHwnd())
+			return false;
+
+		return true;
+	}
+
+};
