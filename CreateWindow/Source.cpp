@@ -12,6 +12,7 @@ LRESULT CALLBACK Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 	case WM_DESTROY:
 	{
+		delete myWin;
 		PostQuitMessage(0);		
 	}break;
 
