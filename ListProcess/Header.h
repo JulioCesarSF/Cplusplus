@@ -17,7 +17,7 @@ public:
 
 		pe32.dwSize = sizeof(PROCESSENTRY32);
 		h = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-		if (!h)
+		if (h == INVALID_HANDLE_VALUE)
 			return false;
 
 		BOOL have = Process32First(h, &pe32);
