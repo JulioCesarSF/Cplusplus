@@ -3,9 +3,9 @@
 under construction
 
 TO-DO:
-*Better input
-*Double-buf draw
-*Ball logic
-*and more ahah
+* Better input
+* Double-buf draw
+* Ball logic
+* and more ahah
 
 
