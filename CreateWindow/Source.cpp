@@ -17,6 +17,11 @@ LRESULT CALLBACK Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 		controls.btn1 = btn1.getHwnd();
 	}break;
 
+	case WM_CLOSE:
+	{
+		DestroyWindow(hwnd);
+	}break;
+
 	case WM_DESTROY:
 	{
 		//delete myWin;
