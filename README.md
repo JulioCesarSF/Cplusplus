@@ -2,4 +2,5 @@
 
 Character Set : Use Multi-Byte Character Set
 
-Windows.
+Windows 10.
+Visual Studio Community 2015.
