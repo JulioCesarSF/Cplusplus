@@ -62,6 +62,7 @@ int main() {
 	cout << "Constructor: " << t2->getNum() << endl;
 
 	delete t;
+	delete t2;
 
 	/* in C++ you NEED to delete objects */
 	
