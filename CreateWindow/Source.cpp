@@ -7,7 +7,7 @@ LRESULT CALLBACK Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 	case WM_CREATE:
 	{
-		MessageBox(NULL, "teste", "teste", MB_ICONINFORMATION);
+		MyButton btn1("Teste1", 50, 24, 50, 50, myWin->getHinst(), hwnd);			
 	}break;
 
 	case WM_DESTROY:
