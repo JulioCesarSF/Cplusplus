@@ -1,0 +1,92 @@
+#include "window.h"
+#include "pong.h"
+
+#pragma comment(linker,"\"/manifestdependency:type='win32' \
+name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
+processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+
+Window* myWin = new Window();
+Pong* pong = new Pong();
+Jogador* jogador1 = new Jogador();
+Jogador* jogador2 = new Jogador();
+
+LRESULT CALLBACK Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
+	switch (message) {
+
+	case WM_CREATE:
+	{
+		/*MyButton btn1("Teste1", 50, 24, 50, 50, myWin->getHinst(), hwnd);
+		controls.btn1 = btn1.getHwnd();*/
+		pong->setup(jogador1, jogador2);
+	}break;
+
+	case WM_PAINT:
+	{
+		PAINTSTRUCT ps;
+		HDC hdc = BeginPaint(hwnd, &ps);
+
+		/* linha no meio */
+		SelectObject(hdc, pong->getVermelho());
+		MoveToEx(hdc, 350, 0, NULL);
+		LineTo(hdc, 350, 500);
+
+		/* desenhar bola */
+		SelectObject(hdc, pong->getBranco());
+		SelectObject(hdc, pong->getPreto());
+		Ellipse(hdc, pong->getBolaPosX() - 9, pong->getBolaPosY() - 9,
+			pong->getBolaPosX() + 9, pong->getBolaPosY() + 9);
+
+		/* desenhar jogador1 */
+		SelectObject(hdc, pong->getHAzul());
+		SelectObject(hdc, pong->getAzul());
+		Rectangle(hdc, jogador1->getposX() - 5, jogador1->getposY() - 30,
+			jogador1->getposX() + 5, jogador1->getposY() + 30);
+
+		/* desenhar jogador2 */
+		SelectObject(hdc, pong->getHVerde());
+		SelectObject(hdc, pong->getVerde());
+		Rectangle(hdc, jogador2->getposX() - 5, jogador2->getposY() - 30,
+			jogador2->getposX() + 5, jogador2->getposY() + 30);		
+
+		EndPaint(hwnd, &ps);
+
+	}break;	
+
+	case WM_CLOSE:
+	{
+		delete jogador1;
+		delete jogador2;
+		delete pong;		
+		DestroyWindow(hwnd);
+	}break;
+
+	case WM_DESTROY:
+	{
+		PostQuitMessage(0);		
+	}break;	
+
+	default:
+		return DefWindowProc(hwnd, message, wParam, lParam);
+		break;
+	}
+
+	return 0;
+}
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+
+	myWin->setHinst(hInstance);
+
+	if (!myWin->setWCE())
+		return 1;
+
+	if (!myWin->createWindow())
+		return 1;
+
+	myWin->show(nCmdShow);
+
+	myWin->messages(myWin->getHwnd(), 
+		jogador1, jogador2, pong);
+
+	return 0;
+}
