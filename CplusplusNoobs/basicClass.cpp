@@ -23,6 +23,11 @@ public: //everybody can access this one
 
 	}
 
+	/* destructor */
+	~Test() {
+		cout << "Destroying object" << endl;
+	}
+
 	void setNum(int num) {
 		this->num = num;
 	}
