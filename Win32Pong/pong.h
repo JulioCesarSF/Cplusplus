@@ -46,11 +46,17 @@ private:
 	HPEN vermelho, verde, azul, preto;
 	HBRUSH branco, hAzul, hVerde;
 	int jogador1PosX, jogador1PosY, jogador2PosX, jogador2PosY;
-	int bolaPosX, bolaPosY, x, y;
+	int bolaPosX, bolaPosY, direcaoX, direcaoY;
 
 	DWORD timeStart;
 
 public:
+
+	Pong() {
+		this->setBolaPosX(350);
+		this->setBolaPosY(250);
+	}
+	
 
 	HBRUSH getBranco() {
 		return this->branco;
@@ -104,12 +110,12 @@ public:
 		return this->bolaPosY;
 	}
 
-	int getX() {
-		return this->x;
+	int getDirecaoX() {
+		return this->direcaoX;
 	}
 
-	int getY() {
-		return this->y;
+	int getDirecaoY() {
+		return this->direcaoY;
 	}
 
 	DWORD getTime() {
@@ -128,12 +134,12 @@ public:
 		this->bolaPosY = bolaPosY;
 	}
 
-	void setX(int x) {
-		this->x = x;
+	void setDirecaoX(int x) {
+		this->direcaoX = x;
 	}
 
-	void setY(int y) {
-		this->y = y;
+	void setDirecaoY(int y) {
+		this->direcaoY = y;
 	}
 
 	void setup(Jogador* jogador1, Jogador* jogador2) {
@@ -148,10 +154,7 @@ public:
 		jogador1->setposX(50);
 		jogador1->setposY(250 - 20);
 		jogador2->setposX(700 - 50);
-		jogador2->setposY(250 - 20);
-		
-		bolaPosX = 350;
-		bolaPosY = 250;
+		jogador2->setposY(250 - 20);		
 
 		jogador1->setRect(175 - 50, 175 + 50, 20, 40);
 		jogador2->setRect(175 * 3 - 50, 175 * 3 + 50, 20, 40);
@@ -174,45 +177,68 @@ public:
 
 		/* iniciar jogo */
 
-		if (GetAsyncKeyState(VK_SPACE)) {
+		if (GetAsyncKeyState(VK_SPACE) 
+			&& this->getBolaPosX() == 350 
+			&& this->getBolaPosY() == 250) {
 			if (rand() % 10 < 5)
-				this->setX(-5);
+				this->setDirecaoX(-5);
 			else
-				this->setX(5);
+				this->setDirecaoX(5);
 
 			if (rand() & 10 < 5)
-				this->setY(-5);
+				this->setDirecaoY(-5);
 			else
-				this->setY(5);
+				this->setDirecaoY(5);
 		}
 	}
 	
 	void moverBola(Jogador* jogador1, Jogador* jogador2) {
-		/*if (this->getBolaPosX() + x >= 700) {
+		
+		/* bola sair da tela */
+		if (this->getBolaPosX() + this->getDirecaoX() >= 700) {
 			this->setBolaPosX(350);
 			this->setBolaPosY(250);
-			x = 0;
-			y = 0;
+			this->setDirecaoX(0);
+			this->setDirecaoY(0);
 		}
 
-		if (this->getBolaPosX() + x <= 0) {
+		if (this->getBolaPosX() + this->getDirecaoX() <= 0) {
 			this->setBolaPosX(350);
 			this->setBolaPosY(250);
-			x = 0;
-			y = 0;
-		}
+			this->setDirecaoX(0);
+			this->setDirecaoY(0);
+		}		
 
-		if(this->getBolaPosX() + x >= jogador2->getposX() - 6 
+		/* colisao com o palito do jogador1 */
+		if (this->getBolaPosX() + this->getDirecaoX() <= jogador1->getposX() + 6
 			&&
-			(this->getBolaPosY() <= jogador2->getposY() + 30 && this->getBolaPosY() >= jogador2->getposY() - 30) ) {
-			x = -y;
+			(this->getBolaPosY() <= jogador1->getposY() + 30
+				&& this->getBolaPosY() >= jogador1->getposY() - 30)
+			) {
+			this->setDirecaoX(-this->getDirecaoX());
 		}
 
-		if (this->getBolaPosY() > 0 && this->getBolaPosY() < 500)
-			this->setBolaPosY(this->getX());
+		/* colisao com o palito do jogador2 */
+		if (this->getBolaPosX() + this->getDirecaoX() >= jogador2->getposX() - 6
+			&&
+			(this->getBolaPosY() <= jogador2->getposY() + 30
+				&& this->getBolaPosY() >= jogador2->getposY() - 30)
+			) {
+			this->setDirecaoX(-this->getDirecaoX());
+		}
+
+		this->setBolaPosX(this->getBolaPosX() + this->getDirecaoX());		
+
+		/* bola dentro da mesa */
+		if (this->getBolaPosY() + this->getDirecaoY() < 500
+			&& this->getBolaPosY() + this->getDirecaoY() > 0)
+			this->setBolaPosY(this->getBolaPosY() + this->getDirecaoY());
 		else {
-			this->setY(this->getY() - 5);
-			this->setBolaPosY(this->getBolaPosY() + this->getY());
-		}*/
+			this->setDirecaoY(-this->getDirecaoY());
+			this->setBolaPosY(this->getBolaPosY() + this->getDirecaoY());
+		}
+
+		
+		
 	}
 };
