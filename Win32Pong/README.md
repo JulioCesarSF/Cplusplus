@@ -11,6 +11,7 @@ How to play:
 under construction
 
 TO-DO:
+* Change players position
 * Add score
 * Better input
 * Double-buf draw
