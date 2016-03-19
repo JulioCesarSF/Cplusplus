@@ -104,7 +104,6 @@ public:
 			pong->moverBola(jogador1, jogador2);
 
 			InvalidateRect(hwnd, NULL, true);
-
 		}
 
 		return (int)this->msg.wParam;
