@@ -11,6 +11,7 @@ How to play:
 under construction
 
 TO-DO:
+* Add score
 * Better input
 * Double-buf draw
 * Better Ball logic
