@@ -69,7 +69,8 @@ public:
 	}
 
 	bool createWindow() {
-		this->setHwnd(CreateWindowEx(WS_EX_COMPOSITED, this->getClassName(), this->getWindowName(), WS_OVERLAPPEDWINDOW,
+		this->setHwnd(CreateWindowEx(WS_EX_COMPOSITED, this->getClassName(), this->getWindowName(),
+			WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU,
 			CW_USEDEFAULT, CW_USEDEFAULT, 700, 500, NULL, NULL, this->getHinst(), NULL));
 
 		if (!this->getHinst()) 
