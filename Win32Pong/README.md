@@ -7,8 +7,8 @@ under construction
 TO-DO:
 * Better input
 * Double-buf draw
-* Ball logic
+* Better Ball logic
 * Better game loop
-* and more ahah
+* ????????
 
 
