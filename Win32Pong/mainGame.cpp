@@ -15,8 +15,6 @@ LRESULT CALLBACK Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 	case WM_CREATE:
 	{
-		/*MyButton btn1("Teste1", 50, 24, 50, 50, myWin->getHinst(), hwnd);
-		controls.btn1 = btn1.getHwnd();*/
 		pong->setup(jogador1, jogador2);
 	}break;
 
