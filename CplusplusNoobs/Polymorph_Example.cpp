@@ -6,7 +6,7 @@ c) Parametric Polymorphism
 d) Coercion Polymorphism
 */
 
-/*Header.h*/
+/*polymorph.h*/
 #pragma once
 #include <iostream>
 #include <Windows.h>
