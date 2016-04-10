@@ -14,7 +14,16 @@ private:
 	LPSTR className = "pingpong";
 	WNDCLASSEX wce;
 	HWND hwnd;
+	int width, height;
 public:
+
+	void setWidth(int w) {
+		width = w;
+	}
+
+	void setHeight(int h) {
+		height = h;
+	}
 
 	void setHinst(HINSTANCE hInst) {
 		this->hInst = hInst;
@@ -30,6 +39,14 @@ public:
 
 	void setHwnd(HWND hwnd) {
 		this->hwnd = hwnd;
+	}
+
+	int getWidth() {
+		return this->width;
+	}
+
+	int getHeight() {
+		return this->height;
 	}
 
 	HWND getHwnd() {
@@ -68,10 +85,10 @@ public:
 			return true;
 	}
 
-	bool createWindow() {
+	bool createWindow() { //WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU
 		this->setHwnd(CreateWindowEx(WS_EX_COMPOSITED, this->getClassName(), this->getWindowName(),
-			WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU,
-			CW_USEDEFAULT, CW_USEDEFAULT, 700, 500, NULL, NULL, this->getHinst(), NULL));
+			WS_POPUP | WS_VISIBLE,
+			(this->getWidth() /2), (this->getHeight() /2), this->getWidth(), this->getHeight(), NULL, NULL, this->getHinst(), NULL));
 
 		if (!this->getHinst()) 
 			return false;		
