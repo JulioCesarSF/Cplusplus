@@ -1,10 +1,13 @@
 #pragma once
 #include <Windows.h>
 #include <ctime>
+#include <string>
+
+using std::string;
 
 class Jogador {
 private:
-	int posX, posY;
+	int posX, posY, score;
 	RECT rect;
 public:
 
@@ -15,6 +18,7 @@ public:
 		this->rect.right = 0;
 		this->rect.top = 0;
 		this->rect.bottom = 0;
+		this->score = 0;
 	}
 
 	void setRect(int x, int y, int w, int h) {
@@ -29,6 +33,17 @@ public:
 	}
 	void setposY(int posY) {
 		this->posY = posY;
+	}
+	void setScore(int score) {
+		this->score = score;
+	}
+
+	int getScore() {
+		return this->score;
+	}
+
+	string getScoreString() {
+		return std::to_string(this->score);
 	}
 
 	int getposX() {
@@ -47,6 +62,7 @@ private:
 	HBRUSH branco, hAzul, hVerde;
 	int jogador1PosX, jogador1PosY, jogador2PosX, jogador2PosY;
 	int bolaPosX, bolaPosY, direcaoX, direcaoY;
+	HFONT scoreFont;
 
 	DWORD timeStart;
 
@@ -56,7 +72,10 @@ public:
 		this->setBolaPosX(350);
 		this->setBolaPosY(250);
 	}
-	
+
+	HFONT getScoreFont() {
+		return this->scoreFont;
+	}	
 
 	HBRUSH getBranco() {
 		return this->branco;
@@ -150,30 +169,34 @@ public:
 		this->branco = CreateSolidBrush(RGB(255, 255, 255));
 		this->hAzul = CreateSolidBrush(RGB(0, 0, 255));
 		this->hVerde = CreateSolidBrush(RGB(0, 255, 0));
+		this->scoreFont = CreateFont(20, 0, 0, 0, FW_BOLD,
+			FALSE, FALSE, FALSE, DEFAULT_CHARSET, 
+			OUT_CHARACTER_PRECIS, CLIP_CHARACTER_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, NULL);
 
-		jogador1->setposX(50);
+		jogador1->setposX(30);
 		jogador1->setposY(250 - 20);
-		jogador2->setposX(700 - 50);
+
+		jogador2->setposX(700 - 30);
 		jogador2->setposY(250 - 20);		
 
-		jogador1->setRect(175 - 50, 175 + 50, 20, 40);
+		jogador1->setRect(175 - 30, 175 + 50, 20, 40);
 		jogador2->setRect(175 * 3 - 50, 175 * 3 + 50, 20, 40);
 	}
 
 	void input(Jogador* jogador1, Jogador* jogador2) {
 
 		/* movimentar jogador1 */
-		if (GetAsyncKeyState(VK_UP) && jogador1->getposY() > 0)
+		if (GetAsyncKeyState(0x41) && jogador1->getposY() > 0)
 			jogador1->setposY(jogador1->getposY() - 10);
-		if (GetAsyncKeyState(VK_DOWN) && jogador1->getposY() < 460)
+
+		if (GetAsyncKeyState(0x5A) && jogador1->getposY() < 460)
 			jogador1->setposY(jogador1->getposY() + 10);
 
 		/* movimentar jogador2 */
-		if (GetAsyncKeyState(0x41) && jogador2->getposY() > 0)
+		if (GetAsyncKeyState(VK_UP) && jogador2->getposY() > 0)
 			jogador2->setposY(jogador2->getposY() - 10);
-
-		if (GetAsyncKeyState(0x5A) && jogador2->getposY() < 460)
-			jogador2->setposY(jogador2->getposY() + 10);
+		if (GetAsyncKeyState(VK_DOWN) && jogador2->getposY() < 460)
+			jogador2->setposY(jogador2->getposY() + 10);		
 
 		/* iniciar jogo */
 
@@ -190,8 +213,12 @@ public:
 			else
 				this->setDirecaoY(5);
 		}
+
+		/* quit */
+		if (GetAsyncKeyState(VK_ESCAPE))
+			PostQuitMessage(0);
 	}
-	
+	/* ball colision the best shit */
 	void moverBola(Jogador* jogador1, Jogador* jogador2) {
 		
 		/* bola sair da tela */
@@ -200,6 +227,7 @@ public:
 			this->setBolaPosY(250);
 			this->setDirecaoX(0);
 			this->setDirecaoY(0);
+			jogador2->setScore(jogador2->getScore() + 1);
 		}
 
 		if (this->getBolaPosX() + this->getDirecaoX() <= 0) {
@@ -207,10 +235,11 @@ public:
 			this->setBolaPosY(250);
 			this->setDirecaoX(0);
 			this->setDirecaoY(0);
+			jogador1->setScore(jogador1->getScore() + 1);
 		}		
 
 		/* colisao com o palito do jogador1 */
-		if (this->getBolaPosX() + this->getDirecaoX() <= jogador1->getposX() + 6
+		if (this->getBolaPosX() + this->getDirecaoX() <= jogador1->getposX() + 9
 			&&
 			(this->getBolaPosY() <= jogador1->getposY() + 30
 				&& this->getBolaPosY() >= jogador1->getposY() - 30)
@@ -219,7 +248,7 @@ public:
 		}
 
 		/* colisao com o palito do jogador2 */
-		if (this->getBolaPosX() + this->getDirecaoX() >= jogador2->getposX() - 6
+		if (this->getBolaPosX() + this->getDirecaoX() >= jogador2->getposX() - 9
 			&&
 			(this->getBolaPosY() <= jogador2->getposY() + 30
 				&& this->getBolaPosY() >= jogador2->getposY() - 30)
@@ -236,9 +265,7 @@ public:
 		else {
 			this->setDirecaoY(-this->getDirecaoY());
 			this->setBolaPosY(this->getBolaPosY() + this->getDirecaoY());
-		}
-
-		
+		}	
 		
 	}
 };
