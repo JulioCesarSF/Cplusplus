@@ -16,6 +16,7 @@ LRESULT CALLBACK Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	case WM_CREATE:
 	{
 		pong->setup(jogador1, jogador2);
+		SetFocus(hwnd);
 	}break;
 
 	case WM_PAINT:
@@ -44,7 +45,15 @@ LRESULT CALLBACK Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 		SelectObject(hdc, pong->getHVerde());
 		SelectObject(hdc, pong->getVerde());
 		Rectangle(hdc, jogador2->getposX() - 5, jogador2->getposY() - 30,
-			jogador2->getposX() + 5, jogador2->getposY() + 30);		
+			jogador2->getposX() + 5, jogador2->getposY() + 30);	
+
+		SetBkMode(hdc, TRANSPARENT);	
+		SelectObject(hdc, pong->getScoreFont());
+		/* desenhar score jogador 1 */		
+		TextOut(hdc, 680, 10, jogador1->getScoreString().c_str(), jogador1->getScoreString().length());
+
+		/* desenhar score jogador 2 */		
+		TextOut(hdc, 10, 10, jogador2->getScoreString().c_str(), jogador2->getScoreString().length());
 
 		EndPaint(hwnd, &ps);
 
@@ -77,6 +86,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	if (!myWin->setWCE())
 		return 1;
+
+	myWin->setWidth(700);
+	myWin->setHeight(500);
 
 	if (!myWin->createWindow())
 		return 1;
