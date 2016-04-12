@@ -11,10 +11,8 @@ How to play:
 under construction
 
 TO-DO:
-* Better input
 * Double-buf draw
 * Better Ball logic
-* Better game loop
 * Add sound
 
 
