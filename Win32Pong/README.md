@@ -4,8 +4,8 @@ C++ Win32 Pong , no external libs..
 
 How to play:
 
-* Player1: UP and DOWN
-* Player2: A and Z
+* Player1: a, z
+* Player2: up, down arrow
 * Start: SPACE
 
 under construction
