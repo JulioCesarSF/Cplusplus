@@ -1,4 +1,4 @@
-![alt tag](http://i.imgur.com/TF802CR.png)
+![alt tag](http://i.imgur.com/Jr8b48X.png)
 
 C++ Win32 Pong , no external libs..
 
