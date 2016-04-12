@@ -87,8 +87,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (!myWin->setWCE())
 		return 1;
 
-	myWin->setWidth(700);
-	myWin->setHeight(500);
+	RECT area = { 0, 0, 700, 500 };
+	::AdjustWindowRect(&area, WS_OVERLAPPEDWINDOW, FALSE);
+
+	myWin->setWidth(area.right - area.left);
+	myWin->setHeight(area.bottom - area.top);
 
 	if (!myWin->createWindow())
 		return 1;
