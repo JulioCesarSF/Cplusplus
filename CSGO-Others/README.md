@@ -5,5 +5,5 @@
 <li>Triggerbot (crosshair id)</li>
 <li>No flash (write to duration)</li>
 <li>Bunny hop (more like a auto jump)</li>
-<li>more soon</li>
+<li>Aimbot (no visibility check)</li>
 </ul>
