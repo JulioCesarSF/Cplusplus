@@ -60,6 +60,7 @@ int main() {
 	if (t->getGameHandle() != NULL &&  t->deAttach(t->getGameHandle()))
 		cout << "De attached!" << endl;
 
+	delete w;
 	delete t;
 
 	return 0;
