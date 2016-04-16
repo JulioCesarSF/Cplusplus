@@ -2,6 +2,7 @@
 #include "Findwindow.h"
 #include "Cheat.h"
 
+
 Cheat* t = new Cheat();
 
 int main() {
@@ -21,9 +22,22 @@ int main() {
 		t->setAttached(true);
 		t->setClientDll(t->getDllModule("client.dll", "csgo.exe"));
 		cout << "client.dll:\t" << t->getClientDll() << endl;
-		//t->workTrigger(true, false);
-		//t->workNoFlash();
-		//t->workBH();
+
+		std::thread trigger = t->callTrigger(true, false);
+		std::thread noflash = t->callNoFlash();
+		std::thread bunny = t->callBH();	
+		trigger.detach();
+		noflash.detach();
+		bunny.detach();
+
+		while (true) {
+
+			cout << '\r' << "Trigger:\t" << t->getUseTrigger() << "\tNoFlash:\t" << t->getUseNoFlash() << "\tBunnyhop:\t" << t->getUseBH() << std::flush;
+
+			if (GetAsyncKeyState(VK_DELETE))
+				break;
+			Sleep(50);
+		}		
 	}
 	else
 		cout << "Not attached!" << endl;
