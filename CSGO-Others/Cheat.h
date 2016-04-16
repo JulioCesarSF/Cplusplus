@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <thread>
 #include "Memory.h"
 
 class Cheat : public Memory {
@@ -17,7 +18,14 @@ private:
 		floatFlashDuration,
 		flags;
 
+	bool useTrigger = false, useNoFlash = false, useBH = false;
+
 public:
+	
+	static Cheat& Instance() {
+		static Cheat cheat;
+		return cheat;
+	}	
 	
 	Cheat() {
 		dwordLocalPlayer = 0xA804CC;
@@ -79,30 +87,40 @@ public:
 	}
 
 	/* triggerbot: crosshairId 64m+- max distance to work */
+
+	std::thread callTrigger(bool shoot, bool writeMemoryToShoot) {
+		return std::thread([=] {workTrigger(shoot, writeMemoryToShoot); });
+	}
+
 	int workTrigger(bool shoot, bool writeMemoryToShoot) {
 		while (true) {
+
+			::Sleep(1);
+
+			if ((::GetKeyState(VK_LEFT) & 0x0001) != 0)
+				useTrigger = !useTrigger;
+
+			if (!useTrigger)
+				continue;
+
 			if (shoot) {
 
 				int ammo = getAmmo();
 				int teamNum = getEntityTeam(getMyCrossId());
 				bool dormant = getEntityDormant(getMyCrossId());
 
-				if ( ammo > 0 && !dormant
-					&&	(teamNum > 0) && teamNum != getMyTeam() ) {
+				if (ammo > 0 && !dormant
+					&& (teamNum > 0) && teamNum != getMyTeam()) {
 
 					if (writeMemoryToShoot) {
 						WPM<int>(this->getGameHandle(), this->getClientDll() + dwordForceAttack, 5);
 						::Sleep(15);
 						WPM<int>(this->getGameHandle(), this->getClientDll() + dwordForceAttack, 4);
-					}else
+					}
+					else
 						click(1, 14);
 				}
 			}
-
-			::Sleep(1);
-
-			if (::GetAsyncKeyState(VK_END))
-				break;
 		}
 		return 0;
 	}
@@ -123,24 +141,46 @@ public:
 	}
 
 	/* no flash: write to duration */
+
+	std::thread callNoFlash() {
+		return std::thread([=] {workNoFlash(); });
+	}
+
 	int workNoFlash() {
 		while (true) {
+
+			::Sleep(2);
+
+			if ((::GetAsyncKeyState(VK_RIGHT) & 0x0001) != 0)
+				useNoFlash = !useNoFlash;
+
+			if (!useNoFlash)
+				continue;
+
 			float flashDuration = RPM<float>(this->getGameHandle(), getLocalPlayer() + floatFlashDuration, sizeof(float));
 
 			if (flashDuration > 0.0f)
-				WPM<float>(this->getGameHandle(), getLocalPlayer() + floatFlashDuration, 0.0);
-
-			if (::GetAsyncKeyState(VK_HOME))
-				break;
-
-			Sleep(2);
+				WPM<float>(this->getGameHandle(), getLocalPlayer() + floatFlashDuration, 0.0);					
 		}
 		return 0;
 	}
 
 	/*bunnyhop: write to force jump (space key pressed) */
+
+	std::thread callBH() {
+		return std::thread([=] {workBH(); });
+	}
+
 	int workBH() {
-		while (true) {			
+		while (true) {
+
+			Sleep(2);
+
+			if ((::GetAsyncKeyState(VK_UP) & 0x0001) != 0)
+				useBH = !useBH;
+
+			if (!useBH)
+				continue;
 
 			if (::GetAsyncKeyState(VK_SPACE) & 0x8000) { //space pressed
 				int flag = RPM<int>(this->getGameHandle(), getLocalPlayer() + flags, sizeof(int));
@@ -149,14 +189,21 @@ public:
 					::Sleep(10);
 					WPM<int>(this->getGameHandle(), this->getClientDll() + dwordForceJump, 4);
 				}
-			}
-
-			if (::GetAsyncKeyState(VK_DELETE))
-				break;
-
-			Sleep(2);
+			}					
 		}
 		return 0;
+	}
+
+	bool getUseTrigger() {
+		return this->useTrigger;
+	}
+
+	bool getUseNoFlash() {
+		return this->useNoFlash;
+	}
+
+	bool getUseBH() {
+		return this->useBH;
 	}
 
 
