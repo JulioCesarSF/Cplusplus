@@ -11,7 +11,7 @@
 <li>Double buffering</li>
 <li>Score</li>
 <li>Timer</li>
-<\ul>
+</ul>
 
 <h3>TODO</h3>
 <ul>
