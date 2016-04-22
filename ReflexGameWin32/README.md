@@ -1,4 +1,4 @@
-<h1>Reflex Game Test</h1>
+<h1>Reflex Game Test (GDI+)</h1>
 
 <p> Hit SPACE to start the game and try to hit the square</p>
 
