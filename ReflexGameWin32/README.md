@@ -7,6 +7,7 @@
 
 <h2>Features</h2>
 <ul>
+<li>Game loop with constant FPS (30)</li>
 <li>GDI+</li>
 <li>Double buffering</li>
 <li>Score</li>
