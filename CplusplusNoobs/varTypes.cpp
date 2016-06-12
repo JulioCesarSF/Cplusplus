@@ -13,7 +13,7 @@ int main() {
 	double numberWithDot; /* 2x more precise than float, you can use "long double" for a bigger one */
 	bool turned; /* true == 1 , false == 0*/
 	char word[256]; /* this a array of characters "letter" */ 
-	std::string name; /* this the most powerfull type to work with "words", string is a set of chars */
+	std::string name; /* this the most powerful type to work with "words", string is a set of chars */
 
 	/* if you are working with WINAPI probally you gonna see those 
 	https://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx

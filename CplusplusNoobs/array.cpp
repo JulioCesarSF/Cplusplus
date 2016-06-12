@@ -16,7 +16,7 @@ int main() {
 	}
 
 	/*
-	Array is like a box where you can store different things in diferent compartiments
+	Array is like a box where you can store different things in different compartiments
 		LINES X COLLS
 
 		int number[10][10]  this mean a matrix of 10x10, 10 lines by 10 collums
